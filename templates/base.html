@@ -1,66 +1,65 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>{% block title %}Portfolio{% endblock %}</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portfolio{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/animate.css/animate.min.css"/>
 </head>
 <body class="bg-gray-900 text-gray-100 font-sans">
 
-  <!-- Navbar -->
-  <nav class="bg-gray-800 shadow p-4 flex justify-between items-center">
-  <a href="/" class="font-bold text-xl text-gray-100">Mi Portfolio</a>
+    <!-- Fondo animado global -->
+    <div id="particles-js" class="absolute inset-0 -z-10"></div>
 
-  <div class="flex items-center space-x-4 relative">
-    <a href="/blog/" class="px-3 text-gray-100 hover:text-blue-400">Blog</a>
-    <a href="/projects/" class="px-3 text-gray-100 hover:text-blue-400">Proyectos</a>
-    <a href="/about/" class="px-3 text-gray-100 hover:text-blue-400">Sobre mí</a>
+    <!-- Navbar lateral -->
+    {% include "navbar.html" %}
 
-    <!-- Login / User -->
-    {% if request.user.is_authenticated %}
-    <div class="relative">
-      <button id="user-menu-button" class="w-10 h-10 rounded-full bg-blue-600 text-white font-bold focus:outline-none">
-        {{ request.user.username|slice:":1"|upper }}
-      </button>
-      <!-- Menú desplegable -->
-      <div id="user-menu" class="hidden absolute right-0 mt-2 w-40 bg-gray-800 text-gray-100 rounded-xl shadow-lg">
-        <a href="{% url 'home' %}" class="block px-4 py-2 hover:bg-gray-700"> {{ request.user.username }} </a>
-        <a href="{% url 'logout' %}" class="block px-4 py-2 hover:bg-gray-700">Cerrar Sesión</a>
-      </div>
+    <!-- Contenido principal -->
+    <main class="ml-16 min-h-screen relative">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Inicial decorativa global -->
+    <div class="absolute right-10 bottom-10 opacity-20 select-none pointer-events-none">
+      <span class="text-[200px] font-extrabold text-pink-600"></span>
     </div>
-    {% else %}
-      <a href="{% url 'login' %}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow">
-        Acceso Admin
-      </a>
-    {% endif %}
-  </div>
-</nav>
 
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("user-menu-btn");
+  const menu = document.getElementById("user-menu");
 
-  <main class="container mx-auto p-6">
-    {% block content %}{% endblock %}
-  </main>
-{% block extra_js %}
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const button = document.getElementById('user-menu-button');
-    const menu = document.getElementById('user-menu');
-
-    if(button && menu){
-        button.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
-
-        // Cerrar al hacer click fuera
-        document.addEventListener('click', (e) => {
-            if (!button.contains(e.target) && !menu.contains(e.target)) {
-                menu.classList.add('hidden');
-            }
-        });
-    }
+  if (btn && menu) {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      menu.classList.toggle("hidden");
+    });
+    document.addEventListener("click", (e) => {
+      if (!menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.classList.add("hidden");
+      }
+    });
+  }
 });
-</script>
-{% endblock %}
+    </script>
+    <!-- Particle.js global -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+    <script>
+      particlesJS("particles-js", {
+        "particles": {
+          "number": {"value": 80},
+          "size": {"value": 2},
+          "move": {"speed": 1},
+          "line_linked": {"enable": true, "distance": 150, "color": "#00ffff"}
+        }
+      });
+    </script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>
