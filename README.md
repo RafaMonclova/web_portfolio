@@ -45,3 +45,4 @@ Incluye un blog personal, proyectos destacados, información de contacto y un cu
 
 ---
 
+Actualmente en desarrollo... 🖥️
