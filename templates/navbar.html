@@ -1,0 +1,106 @@
+<aside id="navbar-aside" class="fixed top-0 left-0 h-screen bg-gray-950 text-gray-300 flex flex-col items-center py-6 space-y-8 shadow-lg z-50 transition-all duration-300 w-16">
+    
+        <!-- Botón burger/flecha -->
+        <button id="navbar-toggle" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-900 hover:bg-gray-800 transition">
+            <i id="navbar-icon" data-lucide="menu" class="w-7 h-7 text-cyan-400"></i>
+        </button>
+    
+    <!-- Menú principal -->
+    <nav id="navbar-menu" class="flex-1 flex flex-col items-center space-y-6 mt-10 transition-all duration-300">
+        <a href="{% url 'home' %}" class="group navbar-btn w-full relative">
+            <div class="flex items-center justify-center" style="width: 100%; min-width: 2.5rem; max-width: 2.5rem; margin: 0 auto;">
+                <i data-lucide="home" class="w-6 h-6 group-hover:text-cyan-400 transition"></i>
+                <span class="navbar-title ml-4 opacity-0 bg-gray-800 text-xs px-2 py-1 rounded-lg transition-all absolute left-10 top-1/2 -translate-y-1/2 pointer-events-none group-hover:opacity-100">Home</span>
+            </div>
+        </a>
+        <a href="{% url 'blog_list' %}" class="group navbar-btn w-full relative">
+            <div class="flex items-center justify-center" style="width: 100%; min-width: 2.5rem; max-width: 2.5rem; margin: 0 auto;">
+                <i data-lucide="book-open" class="w-6 h-6 group-hover:text-cyan-400 transition"></i>
+                <span class="navbar-title ml-4 opacity-0 bg-gray-800 text-xs px-2 py-1 rounded-lg transition-all absolute left-10 top-1/2 -translate-y-1/2 pointer-events-none group-hover:opacity-100">Blog</span>
+            </div>
+        </a>
+    </nav>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleBtn = document.getElementById('navbar-toggle');
+        const menu = document.getElementById('navbar-menu');
+        const icon = document.getElementById('navbar-icon');
+        const titles = document.querySelectorAll('.navbar-title');
+        let expanded = false;
+            const aside = document.getElementById('navbar-aside');
+            function setNavbar(expand) {
+                expanded = expand;
+                                if (expand) {
+                                    aside.classList.remove('w-16');
+                                    aside.classList.add('w-48');
+                                    menu.classList.remove('items-center');
+                                    menu.classList.add('items-start');
+                                    menu.classList.add('justify-start');
+                                    icon.setAttribute('data-lucide', 'arrow-left');
+                                    titles.forEach(t => {
+                                        t.classList.remove('pointer-events-none');
+                                        t.classList.remove('group-hover:opacity-100');
+                                        t.classList.remove('opacity-0');
+                                        t.classList.add('opacity-100');
+                                    });
+                                } else {
+                                    aside.classList.remove('w-48');
+                                    aside.classList.add('w-16');
+                                    menu.classList.add('items-center');
+                                    menu.classList.remove('items-start');
+                                    menu.classList.remove('justify-start');
+                                    icon.setAttribute('data-lucide', 'menu');
+                                    titles.forEach(t => {
+                                        t.classList.add('pointer-events-none');
+                                        t.classList.add('group-hover:opacity-100');
+                                        t.classList.add('opacity-0');
+                                        t.classList.remove('opacity-100');
+                                    });
+                                }
+                if (window.lucide) lucide.createIcons();
+            }
+        setNavbar(false);
+        toggleBtn.addEventListener('click', function() {
+            setNavbar(!expanded);
+        });
+    });
+</script>
+
+    <div class="mb-6">
+        {% if user.is_authenticated %}
+            <!-- Menú con inicial -->
+            <div class="relative">
+                <!-- Avatar que abre el menú -->
+                <button id="user-menu-btn" class="w-10 h-10 rounded-full bg-cyan-600 flex items-center justify-center font-bold text-white cursor-pointer">
+                    {{ user.username|first|upper }}
+                </button>
+
+                <!-- Dropdown (oculto por defecto) -->
+                <div id="user-menu"
+                    class="absolute left-12 bottom-0 mb-2 hidden flex-col bg-gray-800 text-sm rounded-lg shadow-lg min-w-[140px]">
+                    <a href="{% url 'home' %}" class="px-4 py-2 hover:bg-gray-700 block">{{ user.username }}</a>
+                    <a href="{% url 'logout' %}" class="px-4 py-2 hover:bg-gray-700 block">Cerrar sesión</a>
+                </div>
+            </div>
+        {% else %}
+            <!-- Botón login -->
+            <a href="{% url 'login' %}" class="group relative">
+                <i data-lucide="log-in" class="w-6 h-6 group-hover:text-cyan-400 transition"></i>
+                <span class="absolute left-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 bg-gray-800 text-xs px-2 py-1 rounded-lg">Acceso</span>
+            </a>
+        {% endif %}
+    </div>
+    
+    <!-- Footer con redes -->
+    <div class="flex flex-col space-y-4">
+        <a href="https://github.com/RafaMonclova" target="_blank" class="hover:text-white">
+            <i data-lucide="github" class="w-5 h-5"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/rafael-monclova-suano-a9a088142/" target="_blank" class="hover:text-white">
+            <i data-lucide="linkedin" class="w-5 h-5"></i>
+        </a>
+        <a href="mailto:rafamonclova37@gmail.com" class="hover:text-white">
+            <i data-lucide="mail" class="w-5 h-5"></i>
+        </a>
+    </div>
+</aside>

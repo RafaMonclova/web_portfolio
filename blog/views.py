@@ -22,7 +22,7 @@ def post_create(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect('blog_detail', slug=post.slug)
+            return redirect('/blog/?created=1')
     else:
         form = PostForm()
     
@@ -44,7 +44,7 @@ def post_update(request, slug):
     else:
         form = PostForm(instance=post)
 
-    return render(request, "blog/edit.html", {"form": form, "post": post})
+    return render(request, "blog/create.html", {"form": form, "post": post})
 
 @login_required
 def post_delete(request, slug):

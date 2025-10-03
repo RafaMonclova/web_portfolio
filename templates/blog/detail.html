@@ -2,42 +2,40 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-<article class="max-w-3xl mx-auto bg-gray-800 p-8 rounded-2xl shadow">
-  <h1 class="text-4xl font-bold text-gray-100 mb-4">{{ post.title }}</h1>
-  <div class="flex items-center text-gray-400 text-sm mb-6">
-    <span>Publicado el {{ post.created_at|date:"d M Y" }}</span>
-    <span class="mx-2">·</span>
-    <span>por {{ post.author.username }}</span>
-  </div>
-
-  <div class="prose max-w-none text-gray-100">
-    {{ post.content|safe }}
-  </div>
-
-  <div class="mt-8">
-    {% if request.user == post.author %}
-<div class="mt-6 flex space-x-4">
-    <a href="{% url 'post_update' post.slug %}" 
-       class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl shadow">
-       Editar
+<div class="min-h-screen h-screen w-full flex justify-center items-stretch py-0">
+  <article class="w-full max-w-6xl bg-gray-800 h-full min-h-screen p-16 rounded-none shadow-2xl flex flex-col justify-center overflow-hidden relative">
+    <!-- Botón volver atrás -->
+    <a href="{% url 'blog_list' %}" class="absolute top-8 left-8 bg-cyan-500 hover:bg-cyan-600 text-white rounded-full shadow-lg p-3 flex items-center justify-center" title="Volver">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
     </a>
-
-    <button id="delete-post" 
-       class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl shadow">
-       Borrar
-    </button>
-
-    <form id="delete-form" method="post" action="{% url 'post_delete' post.slug %}" style="display:none;">
-        {% csrf_token %}
-    </form>
+    <div class="pt-12 pb-6">
+      <h1 class="text-4xl font-extrabold text-gray-100 mb-2 text-center">{{ post.title }}</h1>
+      <div class="flex items-center justify-center text-gray-400 text-sm gap-2">
+        <span>Publicado por {{ post.author.first_name }}</span>
+      </div>
+    </div>
+    <div class="flex-1 overflow-y-auto prose max-w-none text-gray-100 mb-8" style="max-height: calc(100vh - 170px);">
+      {{ post.content|safe }}
+    </div>
+    <div class="flex flex-col items-left gap-4">
+      {% if request.user == post.author %}
+      <div class="flex space-x-4">
+        <a href="{% url 'post_update' post.slug %}"
+           class="bg-pink-500 hover:bg-green-700 text-white px-5 py-2 rounded-xl shadow-lg">
+           Editar
+        </a>
+        <button id="delete-post"
+           class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-xl shadow-lg">
+           Borrar
+        </button>
+        <form id="delete-form" method="post" action="{% url 'post_delete' post.slug %}" style="display:none;">
+            {% csrf_token %}
+        </form>
+      </div>
+      {% endif %}
+    </div>
+  </article>
 </div>
-{% endif %}
-
-    <a href="{% url 'blog_list' %}" 
-       class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl shadow mt-4">
-      ← Volver al Blog
-    </a>
-  </div>
 </article>
 {% endblock %}
 
@@ -61,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 cancelButtonText: 'Cancelar',
                 background: '#1a202c',
                 color: '#e2e8f0',
-                iconColor: '#facc15',
+                iconColor: '#ed64a6',
                 buttonsStyling: true
             }).then((result) => {
                 if(result.isConfirmed){
