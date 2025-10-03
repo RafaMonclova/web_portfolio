@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<article class="max-w-3xl mx-auto bg-gray-800 p-8 rounded-2xl shadow">
+  <h1 class="text-4xl font-bold text-gray-100 mb-4">{{ post.title }}</h1>
+  <div class="flex items-center text-gray-400 text-sm mb-6">
+    <span>Publicado el {{ post.created_at|date:"d M Y" }}</span>
+    <span class="mx-2">·</span>
+    <span>por {{ post.author.username }}</span>
+  </div>
+
+  <div class="prose max-w-none text-gray-100">
+    {{ post.content|safe }}
+  </div>
+
+  <div class="mt-8">
+    {% if request.user == post.author %}
+<div class="mt-6 flex space-x-4">
+    <a href="{% url 'post_update' post.slug %}" 
+       class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl shadow">
+       Editar
+    </a>
+
+    <button id="delete-post" 
+       class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl shadow">
+       Borrar
+    </button>
+
+    <form id="delete-form" method="post" action="{% url 'post_delete' post.slug %}" style="display:none;">
+        {% csrf_token %}
+    </form>
+</div>
+{% endif %}
+
+    <a href="{% url 'blog_list' %}" 
+       class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl shadow mt-4">
+      ← Volver al Blog
+    </a>
+  </div>
+</article>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const deleteButton = document.getElementById('delete-post');
+    const deleteForm = document.getElementById('delete-form');
+
+    if(deleteButton && deleteForm) {
+        deleteButton.addEventListener('click', () => {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Se eliminará este post permanentemente.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e3342f',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Sí, borrar',
+                cancelButtonText: 'Cancelar',
+                background: '#1a202c',
+                color: '#e2e8f0',
+                iconColor: '#facc15',
+                buttonsStyling: true
+            }).then((result) => {
+                if(result.isConfirmed){
+                    deleteForm.submit();
+                }
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

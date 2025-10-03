@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Editar Post{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto bg-gray-800 text-gray-100 p-10 rounded-3xl shadow-lg mt-10">
+  <h1 class="text-4xl font-bold mb-6">Editar Post</h1>
+
+  <form method="post" class="space-y-6">
+    {% csrf_token %}
+    
+    {{ form.title }}
+    {{ form.content }}
+
+    <button type="submit" 
+      class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl shadow-lg text-lg font-semibold">
+      Guardar Cambios
+    </button>
+  </form>
+</div>
+
+<script src="{% static 'tinymce/tinymce.min.js' %}"></script>
+<script>
+  tinymce.init({
+    selector: 'textarea',
+    menubar: false,
+    plugins: 'lists link image code',
+    toolbar: 'undo redo | bold italic underline | bullist numlist | link image | code',
+    height: 400,
+    skin: 'oxide-dark',
+    content_css: 'dark',
+    content_style: "body { background-color: #1a202c; color: #e2e8f0; }"
+  });
+</script>
+{% endblock %}
