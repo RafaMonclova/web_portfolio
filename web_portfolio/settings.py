@@ -121,7 +121,7 @@ DATABASES = {
         'USER':  os.getenv('MYSQLUSER', 'root'),
         'PASSWORD': os.getenv('MYSQL_ROOT_PASSWORD', 'password'),
         'HOST': os.getenv('MYSQLHOST', 'localhost'),
-        'PORT': '3306',  
+        'PORT': os.getenv('MYSQLPORT', '3306'),
     }
 }
 
