@@ -49,6 +49,8 @@ CORS_ALLOW_HEADERS = [
 # Permitir todos los cors origin
 CORS_ALLOW_ALL_ORIGINS = True
 
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', '*').split(',')
+
 # Application definition
 
 INSTALLED_APPS = [
