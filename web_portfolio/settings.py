@@ -109,20 +109,20 @@ WSGI_APPLICATION = 'web_portfolio.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        'ATOMIC_REQUESTS': True,
-    }
-
     # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',  
-    #     'NAME': 'web_portfolio',
-    #     'USER': 'controlnet',
-    #     'PASSWORD': 'Controlnet123',
-    #     'HOST': '213.165.69.130', 
-    #     'PORT': '3306',  
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    #     'ATOMIC_REQUESTS': True,
     # }
+
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',  
+        'NAME': os.getenv('MYSQL_DATABASE', 'web_portfolio'),
+        'USER':  os.getenv('MYSQLUSER', 'root'),
+        'PASSWORD': os.getenv('MYSQL_ROOT_PASSWORD', 'password'),
+        'HOST': os.getenv('MYSQLHOST', 'localhost'),
+        'PORT': '3306',  
+    }
 }
 
 REST_FRAMEWORK = {
