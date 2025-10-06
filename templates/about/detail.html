@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}Sobre mí{% endblock %}
+
+{% block content %}
+<div class="min-h-screen px-6 md:px-16 py-12 flex flex-col items-center">
+  <div class="max-w-4xl w-full">
+
+    <!-- Header -->
+  <div class="flex flex-col md:flex-row items-center mb-12">
+      {% if about.photo %}
+      <img src="{{ about.photo.url }}" alt="{{ about.full_name }}"
+           class="w-40 h-40 rounded-full object-cover border-4 border-cyan-500 shadow-lg mb-6 md:mb-0 md:mr-8">
+      {% endif %}
+      <div>
+        <h1 class="text-4xl font-bold text-white mb-2">{{ about.full_name }}</h1>
+        <h2 class="text-cyan-400 text-xl mb-4">{{ about.title }}</h2>
+        <p class="text-gray-400 leading-relaxed">{{ about.description }}</p>
+      </div>
+    </div>
+
+    <!-- Frameworks, Lenguajes y Habilidades -->
+    <section class="mb-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="text-xl font-semibold text-cyan-400 mb-4">Frameworks</h3>
+        <div class="flex flex-wrap gap-2">
+          {% for fw in about.frameworks.all %}
+            <span class="bg-cyan-900 text-cyan-300 px-3 py-1 rounded-xl font-semibold shadow">{{ fw.name }}</span>
+          {% empty %}
+            <span class="text-gray-500">Sin frameworks registrados aún.</span>
+          {% endfor %}
+        </div>
+      </div>
+      <div>
+        <h3 class="text-xl font-semibold text-pink-400 mb-4">Lenguajes</h3>
+        <div class="flex flex-wrap gap-2">
+          {% for lang in about.languages.all %}
+            <span class="bg-pink-900 text-pink-300 px-3 py-1 rounded-xl font-semibold shadow">{{ lang.name }}</span>
+          {% empty %}
+            <span class="text-gray-500">Sin lenguajes registrados aún.</span>
+          {% endfor %}
+        </div>
+      </div>
+      <div>
+        <h3 class="text-xl font-semibold text-cyan-200 mb-4">Habilidades</h3>
+        <div class="flex flex-wrap gap-2">
+          {% for skill in about.skills.all %}
+            <span class="bg-gray-800 text-cyan-200 px-3 py-1 rounded-xl font-semibold shadow">{{ skill.name }}</span>
+          {% empty %}
+            <span class="text-gray-500">Sin habilidades registradas aún.</span>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- Experiencia Laboral -->
+    <section class="mb-12">
+      <h3 class="text-2xl font-semibold text-white mb-6 border-b border-gray-700 pb-2">Experiencia Laboral</h3>
+
+      <div class="space-y-8">
+        {% for exp in experiences %}
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg hover:bg-gray-750 transition">
+          <div class="flex justify-between items-center mb-3">
+            <div>
+              <h4 class="text-xl font-bold text-cyan-400">{{ exp.company }}</h4>
+              <p class="text-gray-300">{{ exp.position }}</p>
+            </div>
+            <p class="text-gray-400 text-sm">
+              {{ exp.start_date|date:"M Y" }} – 
+              {% if exp.end_date %}{{ exp.end_date|date:"M Y" }}{% else %}Actualidad{% endif %}
+            </p>
+          </div>
+
+          {% if exp.tasks.all %}
+          <ul class="list-disc list-inside text-gray-300 space-y-1 mt-3">
+            {% for task in exp.tasks.all %}
+            <li class="leading-relaxed">{{ task.description }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+        {% empty %}
+        <p class="text-gray-500">Sin experiencias registradas aún.</p>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- Educación -->
+    <section>
+      <h3 class="text-2xl font-semibold text-white mb-6 border-b border-gray-700 pb-2">Educación</h3>
+      <div class="space-y-6">
+        {% for edu in educations %}
+        <div class="bg-gray-800 p-5 rounded-xl shadow-md hover:bg-gray-750 transition">
+          <h4 class="text-lg font-semibold text-cyan-400">{{ edu.degree }}</h4>
+          <p class="text-gray-300">{{ edu.institution }}</p>
+          <p class="text-gray-400 text-sm mt-1">
+            {{ edu.start_date|date:"Y" }} – 
+            {% if edu.end_date %}{{ edu.end_date|date:"Y" }}{% else %}Actualidad{% endif %}
+          </p>
+        </div>
+        {% empty %}
+        <p class="text-gray-500">Sin estudios registrados aún.</p>
+        {% endfor %}
+      </div>
+    </section>
+
+  </div>
+</div>
+{% endblock %}

@@ -44,6 +44,7 @@ urlpatterns = [
     path('blog/', include('blog.urls')),  # Incluir las URLs de la app blog
     path('login/', WebLoginView.as_view(), name='login'),
     path('logout/', web_logout, name='logout'),
+    path('about/', include('about.urls')),
     
 ]
 

@@ -67,7 +67,8 @@ INSTALLED_APPS = [
     'core',
     'blog',
     'tinymce',
-    'widget_tweaks'
+    'widget_tweaks',
+    'about',
 ]
 
 MIDDLEWARE = [
