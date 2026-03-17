@@ -10,6 +10,9 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+RUN pip uninstall channels daphne -y || true \
+    && pip install --no-cache-dir -U 'channels[daphne]'
+
 COPY . .
 
 COPY entrypoint.sh /entrypoint.sh

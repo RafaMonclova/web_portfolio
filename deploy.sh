@@ -10,6 +10,6 @@ docker compose up -d
 
 # Solo si usa websockets con Daphne
 
-# docker exec -it django_base_api_celery pip uninstall channels -y
-# docker exec -it django_base_api_celery pip uninstall daphne -y
-# docker exec -it django_base_api_celery pip install -U channels["daphne"]
+# docker exec -it portfolio_celery pip uninstall channels -y
+# docker exec -it portfolio_celery pip uninstall daphne -y
+# docker exec -it portfolio_celery pip install -U channels["daphne"]

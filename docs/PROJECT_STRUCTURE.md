@@ -18,7 +18,7 @@
 ## Estructura de carpetas
 
 ```
-django_base_api/
+portfolio/
 │
 ├── manage.py
 ├── requirements.txt

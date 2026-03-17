@@ -12,6 +12,6 @@ export PYTHONUNBUFFERED=1
 
 python manage.py collectstatic --noinput
 
-exec gunicorn config.wsgi:application --bind 0.0.0.0:5012 -w 2 --timeout 300
+#exec gunicorn config.wsgi:application --bind 0.0.0.0:5012 -w 2 --timeout 300
 # Ejecutar Daphne con verbosity aumentada y sin buffering (solo si se usa websockets con Daphne y Channels)
-#exec daphne -b 0.0.0.0 -p 5012 -v 2 config.asgi:application
+exec daphne -b 0.0.0.0 -p 5012 -v 2 config.asgi:application
