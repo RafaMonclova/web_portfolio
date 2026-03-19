@@ -2,51 +2,115 @@
 {% block title %}Sobre mí{% endblock %}
 
 {% block content %}
-<div class="min-h-screen px-6 md:px-16 py-12 flex flex-col items-center">
-  <div class="max-w-4xl w-full">
+<div class="min-h-screen w-full py-12 px-4">
+  <div class="max-w-5xl w-full mx-auto">
 
-    <!-- Header -->
-  <div class="flex flex-col md:flex-row items-center mb-12">
-      {% if about.photo %}
-      <img src="{{ about.photo.url }}" alt="{{ about.full_name }}"
-           class="w-40 h-40 rounded-full object-cover border-4 border-cyan-500 shadow-lg mb-6 md:mb-0 md:mr-8">
-      {% endif %}
-      <div>
-        <h1 class="text-4xl font-bold text-white mb-2">{{ about.full_name }}</h1>
-        <h2 class="text-cyan-400 text-xl mb-4">{{ about.title }}</h2>
-        <p class="text-gray-400 leading-relaxed">{{ about.description }}</p>
+    <!-- Header / Perfil -->
+    <div class="mb-10">
+      <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+        {% if about.photo %}
+        <div class="shrink-0">
+          <img src="{{ about.photo.url }}" alt="{{ about.full_name }}"
+               class="w-36 h-36 rounded-2xl object-cover border-2 border-gray-700/50 shadow-xl ring-4 ring-cyan-500/20">
+        </div>
+        {% endif %}
+        <div class="text-center md:text-left">
+          <h1 class="text-3xl md:text-4xl font-extrabold text-gray-50 mb-1">{{ about.full_name }}</h1>
+          <h2 class="text-lg font-semibold bg-gradient-to-r from-cyan-400 to-pink-400 bg-clip-text text-transparent mb-4">{{ about.title }}</h2>
+          <p class="text-gray-400 leading-relaxed max-w-2xl">{{ about.description }}</p>
+
+          <!-- Links sociales -->
+          {% if about.email or about.linkedin or about.github %}
+          <div class="flex items-center gap-3 mt-5 justify-center md:justify-start">
+            {% if about.email %}
+            <a href="mailto:{{ about.email }}" class="w-9 h-9 flex items-center justify-center rounded-xl bg-gray-800/60 border border-gray-700/30 text-gray-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all duration-200">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </a>
+            {% endif %}
+            {% if about.linkedin %}
+            <a href="{{ about.linkedin }}" target="_blank" rel="noopener" class="w-9 h-9 flex items-center justify-center rounded-xl bg-gray-800/60 border border-gray-700/30 text-gray-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all duration-200">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </a>
+            {% endif %}
+            {% if about.github %}
+            <a href="{{ about.github }}" target="_blank" rel="noopener" class="w-9 h-9 flex items-center justify-center rounded-xl bg-gray-800/60 border border-gray-700/30 text-gray-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all duration-200">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
       </div>
+      <div class="mt-8 h-px bg-gradient-to-r from-cyan-500/40 via-pink-500/20 to-transparent"></div>
     </div>
 
     <!-- Frameworks, Lenguajes y Habilidades -->
-    <section class="mb-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div>
-        <h3 class="text-xl font-semibold text-cyan-400 mb-4">Frameworks</h3>
+    <section class="mb-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Frameworks -->
+      <div class="bg-gray-800/40 backdrop-blur-sm rounded-2xl border border-gray-700/30 p-6 shadow-lg">
+        <h3 class="text-sm font-semibold text-gray-300 mb-4 flex items-center gap-2">
+          <div class="w-7 h-7 rounded-lg bg-cyan-500/15 border border-cyan-500/20 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+            </svg>
+          </div>
+          Frameworks
+        </h3>
         <div class="flex flex-wrap gap-2">
           {% for fw in about.frameworks.all %}
-            <span class="bg-cyan-900 text-cyan-300 px-3 py-1 rounded-xl font-semibold shadow">{{ fw.name }}</span>
+            <span class="inline-flex items-center text-xs font-medium px-2.5 py-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+              {{ fw.name }}
+            </span>
           {% empty %}
-            <span class="text-gray-500">Sin frameworks registrados aún.</span>
+            <span class="text-gray-600 text-sm">Sin frameworks registrados aún.</span>
           {% endfor %}
         </div>
       </div>
-      <div>
-        <h3 class="text-xl font-semibold text-pink-400 mb-4">Lenguajes</h3>
+
+      <!-- Lenguajes -->
+      <div class="bg-gray-800/40 backdrop-blur-sm rounded-2xl border border-gray-700/30 p-6 shadow-lg">
+        <h3 class="text-sm font-semibold text-gray-300 mb-4 flex items-center gap-2">
+          <div class="w-7 h-7 rounded-lg bg-pink-500/15 border border-pink-500/20 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+          </div>
+          Lenguajes
+        </h3>
         <div class="flex flex-wrap gap-2">
           {% for lang in about.languages.all %}
-            <span class="bg-pink-900 text-pink-300 px-3 py-1 rounded-xl font-semibold shadow">{{ lang.name }}</span>
+            <span class="inline-flex items-center text-xs font-medium px-2.5 py-1.5 rounded-lg bg-pink-500/10 text-pink-400 border border-pink-500/20">
+              {{ lang.name }}
+            </span>
           {% empty %}
-            <span class="text-gray-500">Sin lenguajes registrados aún.</span>
+            <span class="text-gray-600 text-sm">Sin lenguajes registrados aún.</span>
           {% endfor %}
         </div>
       </div>
-      <div>
-        <h3 class="text-xl font-semibold text-cyan-200 mb-4">Habilidades</h3>
+
+      <!-- Habilidades -->
+      <div class="bg-gray-800/40 backdrop-blur-sm rounded-2xl border border-gray-700/30 p-6 shadow-lg">
+        <h3 class="text-sm font-semibold text-gray-300 mb-4 flex items-center gap-2">
+          <div class="w-7 h-7 rounded-lg bg-purple-500/15 border border-purple-500/20 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          Habilidades
+        </h3>
         <div class="flex flex-wrap gap-2">
           {% for skill in about.skills.all %}
-            <span class="bg-gray-800 text-cyan-200 px-3 py-1 rounded-xl font-semibold shadow">{{ skill.name }}</span>
+            <span class="inline-flex items-center text-xs font-medium px-2.5 py-1.5 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20">
+              {{ skill.name }}
+            </span>
           {% empty %}
-            <span class="text-gray-500">Sin habilidades registradas aún.</span>
+            <span class="text-gray-600 text-sm">Sin habilidades registradas aún.</span>
           {% endfor %}
         </div>
       </div>
@@ -54,51 +118,81 @@
 
     <!-- Experiencia Laboral -->
     <section class="mb-12">
-      <h3 class="text-2xl font-semibold text-white mb-6 border-b border-gray-700 pb-2">Experiencia Laboral</h3>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-500 to-cyan-700 flex items-center justify-center shadow-lg shadow-cyan-900/30">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-50">Experiencia Laboral</h3>
+      </div>
+      <div class="h-px bg-gradient-to-r from-cyan-500/30 via-gray-700/50 to-transparent mb-6"></div>
 
-      <div class="space-y-8">
+      <div class="space-y-4">
         {% for exp in experiences %}
-        <div class="bg-gray-800 p-6 rounded-xl shadow-lg hover:bg-gray-750 transition">
-          <div class="flex justify-between items-center mb-3">
+        <div class="bg-gray-800/40 backdrop-blur-sm rounded-2xl border border-gray-700/30 p-6 shadow-lg hover:border-cyan-500/20 transition-all duration-200">
+          <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-3">
             <div>
-              <h4 class="text-xl font-bold text-cyan-400">{{ exp.company }}</h4>
-              <p class="text-gray-300">{{ exp.position }}</p>
+              <h4 class="text-lg font-bold text-gray-100">{{ exp.company }}</h4>
+              <p class="text-cyan-400 text-sm font-medium">{{ exp.position }}</p>
             </div>
-            <p class="text-gray-400 text-sm">
-              {{ exp.start_date|date:"M Y" }} – 
-              {% if exp.end_date %}{{ exp.end_date|date:"M Y" }}{% else %}Actualidad{% endif %}
-            </p>
+            <span class="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-gray-900/60 text-gray-400 border border-gray-700/30 shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              {{ exp.start_date|date:"M Y" }} –
+              {% if exp.end_date %}{{ exp.end_date|date:"M Y" }}{% else %}<span class="text-cyan-400">Actualidad</span>{% endif %}
+            </span>
           </div>
 
           {% if exp.tasks.all %}
-          <ul class="list-disc list-inside text-gray-300 space-y-1 mt-3">
+          <ul class="space-y-1.5 mt-3">
             {% for task in exp.tasks.all %}
-            <li class="leading-relaxed">{{ task.description }}</li>
+            <li class="flex items-start gap-2 text-sm text-gray-400 leading-relaxed">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-500/60 mt-1.5 shrink-0"></span>
+              {{ task.description }}
+            </li>
             {% endfor %}
           </ul>
           {% endif %}
         </div>
         {% empty %}
-        <p class="text-gray-500">Sin experiencias registradas aún.</p>
+        <p class="text-gray-600 text-sm text-center py-8">Sin experiencias registradas aún.</p>
         {% endfor %}
       </div>
     </section>
 
     <!-- Educación -->
-    <section>
-      <h3 class="text-2xl font-semibold text-white mb-6 border-b border-gray-700 pb-2">Educación</h3>
-      <div class="space-y-6">
+    <section class="mb-8">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center shadow-lg shadow-pink-900/30">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-50">Educación</h3>
+      </div>
+      <div class="h-px bg-gradient-to-r from-pink-500/30 via-gray-700/50 to-transparent mb-6"></div>
+
+      <div class="space-y-4">
         {% for edu in educations %}
-        <div class="bg-gray-800 p-5 rounded-xl shadow-md hover:bg-gray-750 transition">
-          <h4 class="text-lg font-semibold text-cyan-400">{{ edu.degree }}</h4>
-          <p class="text-gray-300">{{ edu.institution }}</p>
-          <p class="text-gray-400 text-sm mt-1">
-            {{ edu.start_date|date:"Y" }} – 
-            {% if edu.end_date %}{{ edu.end_date|date:"Y" }}{% else %}Actualidad{% endif %}
-          </p>
+        <div class="bg-gray-800/40 backdrop-blur-sm rounded-2xl border border-gray-700/30 p-6 shadow-lg hover:border-pink-500/20 transition-all duration-200">
+          <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+            <div>
+              <h4 class="text-lg font-bold text-gray-100">{{ edu.degree }}</h4>
+              <p class="text-pink-400 text-sm font-medium">{{ edu.institution }}</p>
+            </div>
+            <span class="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-gray-900/60 text-gray-400 border border-gray-700/30 shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              {{ edu.start_date|date:"Y" }} –
+              {% if edu.end_date %}{{ edu.end_date|date:"Y" }}{% else %}<span class="text-pink-400">Actualidad</span>{% endif %}
+            </span>
+          </div>
         </div>
         {% empty %}
-        <p class="text-gray-500">Sin estudios registrados aún.</p>
+        <p class="text-gray-600 text-sm text-center py-8">Sin estudios registrados aún.</p>
         {% endfor %}
       </div>
     </section>
