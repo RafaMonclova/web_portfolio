@@ -6,7 +6,7 @@ class PostForm(forms.ModelForm):
     title = forms.CharField(
         label="Título del Post",
         widget=forms.TextInput(attrs={
-            'class': 'w-full border border-gray-700 rounded-lg p-3 text-lg bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500',
+            'class': 'w-full border border-gray-700/50 rounded-xl px-4 py-3 text-lg bg-gray-900/60 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all duration-200',
             'placeholder': 'Escribe el título aquí...'
         })
     )

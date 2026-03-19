@@ -2,40 +2,34 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-<div class="min-h-screen h-screen w-full flex justify-center items-stretch py-0">
-  <article class="w-full max-w-6xl bg-gray-800 h-full min-h-screen p-16 rounded-none shadow-2xl flex flex-col justify-center overflow-hidden relative">
-    <!-- Botón volver atrás -->
-    <a href="{% url 'blog_list' %}" class="absolute top-8 left-8 bg-cyan-500 hover:bg-cyan-600 text-white rounded-full shadow-lg p-3 flex items-center justify-center" title="Volver">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-    </a>
-    <div class="pt-12 pb-6">
-      <h1 class="text-4xl font-extrabold text-gray-100 mb-2 text-center">{{ post.title }}</h1>
-      <div class="flex items-center justify-center text-gray-400 text-sm gap-2">
-        <span>Publicado por {{ post.author.first_name }}</span>
-      </div>
-    </div>
-    <div class="flex-1 overflow-y-auto prose max-w-none text-gray-100 mb-8" style="max-height: calc(100vh - 170px);">
-      <div style="all:unset;">
-        <div style="all:unset;">
-          <style>
-            .prose ul { list-style-type: disc !important; margin-left: 1.5em !important; }
-            .prose ol { list-style-type: decimal !important; margin-left: 1.5em !important; }
-            .prose li { margin-left: 0.5em !important; }
-          </style>
-          {{ post.content|safe }}
-        </div>
-      </div>
-    </div>
-    <div class="flex flex-col items-left gap-4">
+<div class="min-h-screen w-full flex justify-center py-12 px-4">
+  <article class="w-full max-w-4xl relative">
+
+    <!-- Navegación superior -->
+    <div class="mb-8 flex items-center justify-between">
+      <a href="{% url 'blog_list' %}"
+         class="inline-flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors duration-200 group">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:-translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        <span class="text-sm font-medium">Volver al blog</span>
+      </a>
+
       {% if request.user == post.author %}
-      <div class="flex space-x-4">
+      <div class="flex items-center gap-3">
         <a href="{% url 'post_update' post.slug %}"
-           class="bg-pink-500 hover:bg-green-700 text-white px-5 py-2 rounded-xl shadow-lg">
-           Editar
+           class="inline-flex items-center gap-2 bg-gray-800/60 hover:bg-gray-700/80 text-gray-300 hover:text-cyan-400 border border-gray-700/50 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          </svg>
+          Editar
         </a>
         <button id="delete-post"
-           class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-xl shadow-lg">
-           Borrar
+           class="inline-flex items-center gap-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/20 hover:border-red-500/40 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+          Borrar
         </button>
         <form id="delete-form" method="post" action="{% url 'post_delete' post.slug %}" style="display:none;">
             {% csrf_token %}
@@ -43,9 +37,76 @@
       </div>
       {% endif %}
     </div>
+
+    <!-- Cabecera del artículo -->
+    <header class="mb-10">
+      <h1 class="text-4xl md:text-5xl font-extrabold text-gray-50 leading-tight mb-5">{{ post.title }}</h1>
+      <div class="flex items-center gap-4">
+        <!-- Avatar del autor -->
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-cyan-700 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-cyan-900/30">
+          {{ post.author.first_name|first|upper }}
+        </div>
+        <div class="flex flex-col">
+          <span class="text-gray-200 text-sm font-medium">{{ post.author.first_name }} {{ post.author.last_name }}</span>
+          <div class="flex items-center gap-3 text-gray-500 text-xs">
+            <time datetime="{{ post.created_at|date:'Y-m-d' }}">
+              {{ post.created_at|date:"d M Y" }}
+            </time>
+            {% if post.updated_at != post.created_at %}
+            <span class="inline-flex items-center gap-1">
+              <span class="w-1 h-1 rounded-full bg-gray-600"></span>
+              Actualizado {{ post.updated_at|date:"d M Y" }}
+            </span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <!-- Línea decorativa -->
+      <div class="mt-8 h-px bg-gradient-to-r from-cyan-500/40 via-gray-700/50 to-transparent"></div>
+    </header>
+
+    <!-- Contenido del artículo -->
+    <div class="bg-gray-800/40 backdrop-blur-sm rounded-2xl border border-gray-700/30 p-8 md:p-12 shadow-xl">
+      <div class="prose prose-invert prose-lg max-w-none
+                  prose-headings:text-gray-100 prose-headings:font-bold
+                  prose-p:text-gray-300 prose-p:leading-relaxed
+                  prose-a:text-cyan-400 prose-a:no-underline hover:prose-a:underline
+                  prose-strong:text-gray-100
+                  prose-code:text-cyan-300 prose-code:bg-gray-700/50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:text-sm
+                  prose-pre:bg-gray-900/80 prose-pre:border prose-pre:border-gray-700/50 prose-pre:rounded-xl
+                  prose-blockquote:border-cyan-500/50 prose-blockquote:text-gray-400
+                  prose-img:rounded-xl prose-img:shadow-lg
+                  prose-hr:border-gray-700/50">
+        <style>
+          .prose ul { list-style-type: disc !important; margin-left: 1.5em !important; }
+          .prose ol { list-style-type: decimal !important; margin-left: 1.5em !important; }
+          .prose li { margin-left: 0.5em !important; color: #d1d5db; }
+          .prose li::marker { color: #22d3ee; }
+          .prose h2 { margin-top: 2em; margin-bottom: 0.75em; }
+          .prose h3 { margin-top: 1.5em; margin-bottom: 0.5em; }
+          .prose p { margin-bottom: 1.25em; }
+          .prose img { margin: 2em auto; }
+        </style>
+        {{ post.content|safe }}
+      </div>
+    </div>
+
+    <!-- Footer del artículo -->
+    <footer class="mt-10 pt-6 border-t border-gray-800/60">
+      <div class="flex items-center justify-between">
+        <a href="{% url 'blog_list' %}"
+           class="inline-flex items-center gap-2 text-gray-500 hover:text-cyan-400 transition-colors duration-200 text-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Todos los artículos
+        </a>
+        <span class="text-gray-600 text-xs">{{ post.created_at|date:"d/m/Y H:i" }}</span>
+      </div>
+    </footer>
+
   </article>
 </div>
-</article>
 {% endblock %}
 
 {% block extra_js %}
@@ -63,13 +124,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#e3342f',
-                cancelButtonColor: '#6b7280',
+                cancelButtonColor: '#374151',
                 confirmButtonText: 'Sí, borrar',
                 cancelButtonText: 'Cancelar',
-                background: '#1a202c',
+                background: '#111827',
                 color: '#e2e8f0',
-                iconColor: '#ed64a6',
-                buttonsStyling: true
+                iconColor: '#f87171',
+                buttonsStyling: true,
+                customClass: {
+                    popup: 'rounded-2xl border border-gray-700/50',
+                    confirmButton: 'rounded-xl',
+                    cancelButton: 'rounded-xl'
+                }
             }).then((result) => {
                 if(result.isConfirmed){
                     deleteForm.submit();

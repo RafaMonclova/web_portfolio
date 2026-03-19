@@ -2,38 +2,104 @@
 {% block title %}Blog{% endblock %}
 
 {% block content %}
-<div class="flex flex-col items-center justify-center min-h-screen py-12">
-  <div class="w-full max-w-7xl mx-auto h-[80vh] flex flex-col bg-transparent">
-  <div class="sticky top-0 z-30 bg-transparent pb-4 pt-4">
-      <div class="flex justify-between items-center">
-        <h1 class="text-4xl font-extrabold text-gray-100">Blog</h1>
+<div class="min-h-screen w-full py-12 px-4">
+  <div class="w-full max-w-6xl mx-auto">
+
+    <!-- Cabecera -->
+    <div class="mb-10">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-cyan-700 flex items-center justify-center shadow-lg shadow-cyan-900/30">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-50">Blog</h1>
+            <p class="text-gray-500 text-sm mt-0.5">Últimas publicaciones y artículos</p>
+          </div>
+        </div>
         {% if user.is_authenticated %}
           <a href="{% url 'post_create' %}"
-             class="bg-cyan-500 hover:bg-cyan-600 text-white px-5 py-2 rounded-xl shadow-lg transition">
-             + Nuevo Post
+             class="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white px-5 py-2.5 rounded-xl shadow-lg shadow-cyan-900/30 text-sm font-semibold transition-all duration-200 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Nuevo Post
           </a>
         {% endif %}
       </div>
+      <div class="mt-6 h-px bg-gradient-to-r from-cyan-500/40 via-gray-700/50 to-transparent"></div>
     </div>
-    <div class="flex-1 overflow-y-auto">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {% for post in posts %}
-          <div class="bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition flex flex-col gap-4 p-8 animate__animated animate__fadeInUp">
-            <h2 class="text-cyan-400 font-semibold text-2xl mb-2">
-              {{ post.title }}
-            </h2>
-            <p class="text-gray-400 text-sm mb-4">Publicado: {{ post.created_at|date:"d M Y" }} a las {{ post.created_at|date:"H:i" }}</p>
-            <p class="text-gray-300 flex-1">Autor: {{ post.author.first_name }}</p>
-            <a href="{% url 'blog_detail' post.slug %}" class="mt-auto inline-block bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-xl shadow transition text-center">Leer más</a>
+
+    <!-- Grid de posts -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for post in posts %}
+        <a href="{% url 'blog_detail' post.slug %}"
+           class="group bg-gray-800/40 backdrop-blur-sm rounded-2xl border border-gray-700/30
+                  hover:border-cyan-500/30 hover:bg-gray-800/60
+                  shadow-lg hover:shadow-xl hover:shadow-cyan-900/10
+                  transition-all duration-300 hover:-translate-y-1
+                  flex flex-col p-6 animate__animated animate__fadeInUp cursor-pointer">
+
+          <!-- Fecha -->
+          <div class="flex items-center gap-2 text-gray-500 text-xs mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <time datetime="{{ post.created_at|date:'Y-m-d' }}">{{ post.created_at|date:"d M Y" }}</time>
           </div>
-        {% empty %}
-          <div class="col-span-full text-gray-500 text-center">No hay posts publicados todavía.</div>
-        {% endfor %}
-      </div>
+
+          <!-- Título -->
+          <h2 class="text-xl font-bold text-gray-100 group-hover:text-cyan-400 transition-colors duration-200 mb-3 leading-snug">
+            {{ post.title }}
+          </h2>
+
+          <!-- Preview del contenido -->
+          <p class="text-gray-400 text-sm leading-relaxed flex-1 mb-5 line-clamp-3">
+            {{ post.content|safe|striptags|truncatewords:25 }}
+          </p>
+
+          <!-- Footer de la card -->
+          <div class="flex items-center justify-between pt-4 border-t border-gray-700/30">
+            <!-- Autor -->
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-500 to-cyan-700 flex items-center justify-center text-white text-xs font-bold shadow-sm">
+                {{ post.author.first_name|first|upper }}
+              </div>
+              <span class="text-gray-400 text-xs font-medium">{{ post.author.first_name }}</span>
+            </div>
+
+            <!-- Leer más -->
+            <span class="inline-flex items-center gap-1 text-cyan-500/70 group-hover:text-cyan-400 text-xs font-medium transition-colors duration-200">
+              Leer más
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </div>
+        </a>
+      {% empty %}
+        <div class="col-span-full flex flex-col items-center justify-center py-20">
+          <div class="w-16 h-16 rounded-2xl bg-gray-800/60 border border-gray-700/30 flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+            </svg>
+          </div>
+          <p class="text-gray-500 text-sm">No hay posts publicados todavía.</p>
+          {% if user.is_authenticated %}
+            <a href="{% url 'post_create' %}" class="mt-4 text-cyan-500 hover:text-cyan-400 text-sm font-medium transition-colors">
+              Crea el primero →
+            </a>
+          {% endif %}
+        </div>
+      {% endfor %}
     </div>
+
   </div>
 </div>
 {% endblock %}
+
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
@@ -44,16 +110,18 @@
         toast: true,
         position: 'bottom-end',
         icon: 'success',
-        iconColor: '#ed64a6',
-        title: 'Post creado',
+        iconColor: '#22d3ee',
+        title: 'Post creado con éxito',
         showConfirmButton: false,
         timer: 2500,
         timerProgressBar: true,
-        background: '#1a202c',
+        background: '#111827',
         color: '#e2e8f0',
+        customClass: {
+          popup: 'rounded-xl border border-gray-700/50'
+        }
       });
     }
   });
 </script>
 {% endblock %}
-
