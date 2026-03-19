@@ -95,11 +95,11 @@ class WebLoginView(LoginView):
         form = super().get_form(form_class)
         form.fields['username'].widget.attrs.update({
             'placeholder': 'Nombre de usuario',
-            'class': 'w-full p-3 rounded-lg bg-gray-700 text-gray-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500'
+            'class': 'w-full px-4 py-3 rounded-xl bg-gray-900/60 text-gray-100 border border-gray-700/50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all duration-200'
         })
         form.fields['password'].widget.attrs.update({
             'placeholder': 'Contraseña',
-            'class': 'w-full p-3 rounded-lg bg-gray-700 text-gray-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500'
+            'class': 'w-full px-4 py-3 rounded-xl bg-gray-900/60 text-gray-100 border border-gray-700/50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all duration-200'
         })
         return form
 

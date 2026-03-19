@@ -2,18 +2,68 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<div class="min-h-screen flex items-center justify-center">
-  <div class="bg-gray-800 p-8 rounded-xl shadow-lg w-full max-w-md relative z-10">
-    <h1 class="text-2xl font-bold text-center mb-6">Iniciar Sesión</h1>
-    <form method="post" class="space-y-4">
-      {% csrf_token %}
-      {{ form.username }}
-      {{ form.password }}
-      <button type="submit"
-        class="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-2 rounded-lg">
-        Entrar
-      </button>
-    </form>
+<div class="min-h-screen flex items-center justify-center px-4">
+  <div class="w-full max-w-sm relative z-10">
+
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500 to-cyan-700 flex items-center justify-center shadow-lg shadow-cyan-900/30 mx-auto mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+      </div>
+      <h1 class="text-2xl font-extrabold text-gray-50">Iniciar Sesión</h1>
+      <p class="text-gray-500 text-sm mt-1">Accede a tu cuenta</p>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-gray-800/40 backdrop-blur-sm rounded-2xl border border-gray-700/30 p-8 shadow-xl">
+      <form method="post" class="space-y-5">
+        {% csrf_token %}
+
+        <!-- Username -->
+        <div>
+          <label for="id_username" class="block text-sm font-medium text-gray-400 mb-1.5">Usuario</label>
+          {{ form.username }}
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label for="id_password" class="block text-sm font-medium text-gray-400 mb-1.5">Contraseña</label>
+          {{ form.password }}
+        </div>
+
+        {% if form.errors %}
+        <div class="flex items-center gap-2 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p class="text-red-400 text-sm">Usuario o contraseña incorrectos</p>
+        </div>
+        {% endif %}
+
+        <!-- Submit -->
+        <button type="submit"
+          class="w-full inline-flex items-center justify-center gap-2
+                 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400
+                 text-white py-3 rounded-xl shadow-lg shadow-cyan-900/30 font-semibold
+                 transition-all duration-200 hover:shadow-xl hover:-translate-y-0.5
+                 active:translate-y-0 active:shadow-md">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+          </svg>
+          Entrar
+        </button>
+      </form>
+    </div>
+
+    <!-- Footer link -->
+    <div class="text-center mt-6">
+      <a href="{% url 'home' %}" class="text-gray-500 hover:text-cyan-400 text-sm transition-colors duration-200">
+        ← Volver al inicio
+      </a>
+    </div>
+
   </div>
 </div>
 {% endblock %}
