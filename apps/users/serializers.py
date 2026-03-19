@@ -62,16 +62,16 @@ class UserSerializer(serializers.ModelSerializer):
     
     
     
-    def to_representation(self, instance):
-        """Override to force HTTPS for file fields"""
-        data = super().to_representation(instance)
-        request = self.context.get('request')
+    # def to_representation(self, instance):
+    #     """Override to force HTTPS for file fields"""
+    #     data = super().to_representation(instance)
+    #     request = self.context.get('request')
         
-        # Force HTTPS for photo field
-        if data.get('photo'):
-            data['photo'] = build_absolute_uri_https(request, data['photo'])
+    #     # Force HTTPS for photo field
+    #     if data.get('photo'):
+    #         data['photo'] = build_absolute_uri_https(request, data['photo'])
         
-        return data
+    #     return data
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
