@@ -109,18 +109,21 @@
     <!-- Separador inferior -->
     <div class="w-8 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent my-4 navbar-separator"></div>
 
-    <div class="mb-4 flex flex-col items-center">
+    <div class="mb-4 w-full px-2 flex flex-col items-center space-y-1">
         {% if user.is_authenticated %}
             <!-- Menú con inicial -->
-            <div class="relative">
-                <!-- Avatar que abre el menú -->
-                <button id="user-menu-btn" class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-cyan-700 flex items-center justify-center font-bold text-white cursor-pointer hover:from-cyan-400 hover:to-cyan-600 transition-all duration-200 shadow-lg shadow-cyan-900/30">
-                    {{ user.username|first|upper }}
+            <div class="relative w-full">
+                <button id="user-menu-btn" class="navbar-btn group w-full relative flex items-center rounded-xl px-0 py-2.5 justify-center hover:bg-gray-800/60 transition-all duration-200">
+                    <div class="navbar-icon-wrap flex items-center justify-center w-6 shrink-0">
+                        <div class="w-6 h-6 rounded-full bg-gradient-to-br from-cyan-500 to-cyan-700 flex items-center justify-center font-bold text-white text-[10px] leading-none">{{ user.username|first|upper }}</div>
+                    </div>
+                    <span class="navbar-title ml-3 whitespace-nowrap text-sm font-medium opacity-0 w-0 overflow-hidden transition-all duration-300 pointer-events-none group-hover:text-white">{{ user.username }}</span>
+                    <span class="navbar-tooltip absolute left-full ml-3 top-1/2 -translate-y-1/2 bg-gray-800 text-gray-200 text-xs font-medium px-3 py-1.5 rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">{{ user.username }}</span>
                 </button>
 
                 <!-- Dropdown (oculto por defecto) -->
                 <div id="user-menu"
-                    class="absolute left-14 bottom-0 mb-2 hidden flex-col bg-gray-800/95 backdrop-blur-sm text-sm rounded-xl shadow-xl border border-gray-700/50 min-w-[160px] overflow-hidden">
+                    class="absolute left-14 bottom-0 mb-2 hidden flex-col bg-gray-800/95 backdrop-blur-sm text-sm rounded-xl shadow-xl border border-gray-700/50 min-w-[160px] overflow-hidden z-50">
                     <a href="{% url 'home' %}" class="px-4 py-2.5 hover:bg-gray-700/60 hover:text-white block transition-colors duration-150">{{ user.username }}</a>
                     <div class="h-px bg-gray-700/50"></div>
                     <a href="{% url 'logout' %}" class="px-4 py-2.5 hover:bg-gray-700/60 hover:text-red-400 block transition-colors duration-150">Cerrar sesión</a>
@@ -128,23 +131,38 @@
             </div>
         {% else %}
             <!-- Botón login -->
-            <a href="{% url 'login' %}" class="group relative w-10 h-10 flex items-center justify-center rounded-xl hover:bg-gray-800/60 transition-all duration-200">
-                <i data-lucide="log-in" class="w-5 h-5 group-hover:text-cyan-400 transition-colors duration-200"></i>
-                <span class="absolute left-full ml-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 bg-gray-800 text-gray-200 text-xs font-medium px-3 py-1.5 rounded-lg shadow-lg transition-opacity duration-200 whitespace-nowrap">Acceso</span>
+            <a href="{% url 'login' %}" class="navbar-btn group w-full relative flex items-center rounded-xl px-0 py-2.5 justify-center hover:bg-gray-800/60 transition-all duration-200">
+                <div class="navbar-icon-wrap flex items-center justify-center w-6 shrink-0">
+                    <i data-lucide="log-in" class="w-5 h-5 group-hover:text-cyan-400 transition-colors duration-200"></i>
+                </div>
+                <span class="navbar-title ml-3 whitespace-nowrap text-sm font-medium opacity-0 w-0 overflow-hidden transition-all duration-300 pointer-events-none group-hover:text-white">Acceso</span>
+                <span class="navbar-tooltip absolute left-full ml-3 top-1/2 -translate-y-1/2 bg-gray-800 text-gray-200 text-xs font-medium px-3 py-1.5 rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">Acceso</span>
             </a>
         {% endif %}
     </div>
 
     <!-- Footer con redes -->
-    <div class="flex flex-col items-center space-y-3">
-        <a href="https://github.com/RafaMonclova" target="_blank" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-800/60 hover:text-white transition-all duration-200">
-            <i data-lucide="github" class="w-4 h-4"></i>
+    <div class="w-full px-2 flex flex-col items-center space-y-1">
+        <a href="https://github.com/RafaMonclova" target="_blank" class="navbar-btn group w-full relative flex items-center rounded-xl px-0 py-2 justify-center hover:bg-gray-800/60 hover:text-white transition-all duration-200">
+            <div class="navbar-icon-wrap flex items-center justify-center w-6 shrink-0">
+                <i data-lucide="github" class="w-4 h-4"></i>
+            </div>
+            <span class="navbar-title ml-3 whitespace-nowrap text-sm font-medium opacity-0 w-0 overflow-hidden transition-all duration-300 pointer-events-none group-hover:text-white">GitHub</span>
+            <span class="navbar-tooltip absolute left-full ml-3 top-1/2 -translate-y-1/2 bg-gray-800 text-gray-200 text-xs font-medium px-3 py-1.5 rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">GitHub</span>
         </a>
-        <a href="https://www.linkedin.com/in/rafael-monclova-suano-a9a088142/" target="_blank" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-800/60 hover:text-white transition-all duration-200">
-            <i data-lucide="linkedin" class="w-4 h-4"></i>
+        <a href="https://www.linkedin.com/in/rafael-monclova-suano-a9a088142/" target="_blank" class="navbar-btn group w-full relative flex items-center rounded-xl px-0 py-2 justify-center hover:bg-gray-800/60 hover:text-white transition-all duration-200">
+            <div class="navbar-icon-wrap flex items-center justify-center w-6 shrink-0">
+                <i data-lucide="linkedin" class="w-4 h-4"></i>
+            </div>
+            <span class="navbar-title ml-3 whitespace-nowrap text-sm font-medium opacity-0 w-0 overflow-hidden transition-all duration-300 pointer-events-none group-hover:text-white">LinkedIn</span>
+            <span class="navbar-tooltip absolute left-full ml-3 top-1/2 -translate-y-1/2 bg-gray-800 text-gray-200 text-xs font-medium px-3 py-1.5 rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">LinkedIn</span>
         </a>
-        <a href="mailto:rafamonclova37@gmail.com" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-800/60 hover:text-white transition-all duration-200">
-            <i data-lucide="mail" class="w-4 h-4"></i>
+        <a href="mailto:rafamonclova37@gmail.com" class="navbar-btn group w-full relative flex items-center rounded-xl px-0 py-2 justify-center hover:bg-gray-800/60 hover:text-white transition-all duration-200">
+            <div class="navbar-icon-wrap flex items-center justify-center w-6 shrink-0">
+                <i data-lucide="mail" class="w-4 h-4"></i>
+            </div>
+            <span class="navbar-title ml-3 whitespace-nowrap text-sm font-medium opacity-0 w-0 overflow-hidden transition-all duration-300 pointer-events-none group-hover:text-white">Contacto</span>
+            <span class="navbar-tooltip absolute left-full ml-3 top-1/2 -translate-y-1/2 bg-gray-800 text-gray-200 text-xs font-medium px-3 py-1.5 rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">Contacto</span>
         </a>
     </div>
 </aside>
