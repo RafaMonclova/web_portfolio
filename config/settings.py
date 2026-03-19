@@ -33,11 +33,13 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 if not SECRET_KEY:
     raise ValueError('La variable de entorno SECRET_KEY no esta definida')
 
+def get_list(env_var):
+    return os.getenv(env_var, "").split(",") if os.getenv(env_var) else []
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = get_list("ALLOWED_HOSTS")
 
 # HTTPS Settings - Force HTTPS in production
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -61,8 +63,10 @@ CORS_ALLOW_HEADERS = [
 # Origenes CORS permitidos (definir CORS_ALLOWED_ORIGINS en .env para produccion)
 CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', 'False') == 'True'
 if not CORS_ALLOW_ALL_ORIGINS:
-    _cors_origins = os.getenv('CORS_ALLOWED_ORIGINS', '')
-    CORS_ALLOWED_ORIGINS = [o.strip() for o in _cors_origins.split(',') if o.strip()]
+    CORS_ALLOWED_ORIGINS = get_list("CORS_ALLOWED_ORIGINS")
+
+CSRF_TRUSTED_ORIGINS = get_list("CSRF_TRUSTED_ORIGINS")
+
 
 # Application definition
 
@@ -225,7 +229,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/apiweb/static/'
+STATIC_URL = '/apiweb/staticfiles/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = '/apiweb/media/'
