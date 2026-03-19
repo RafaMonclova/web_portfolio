@@ -9,6 +9,7 @@ services:
       - "${WEB_PORT}:5012"
     volumes:
       - portfolio:/app/media/
+      - static_data:/app/staticfiles/
     depends_on:
       - redis
     env_file:
@@ -52,6 +53,7 @@ services:
 
 volumes:
   portfolio:
+  static_data:
 
 networks:
   internal:
