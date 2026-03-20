@@ -22,6 +22,8 @@ from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 from apps.users.api.views import UserView, CustomLoginView, WebLoginView, web_logout
 from apps.core.views import home
+from django.views.static import serve
+from django.urls import re_path
 
 
 router = DefaultRouter()
