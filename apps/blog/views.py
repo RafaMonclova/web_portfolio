@@ -7,11 +7,17 @@ from .forms import PostForm
 from django.contrib.auth.decorators import login_required
 
 def blog_list(request):
-    posts = Post.objects.all().order_by("-created_at")
+    if request.user.is_authenticated and request.user.is_superuser:
+        posts = Post.objects.all().order_by("-created_at")
+    else:
+        posts = Post.objects.filter(active=True).order_by("-created_at")
     return render(request, "blog/list.html", {"posts": posts})
 
 def blog_detail(request, slug):
-    post = get_object_or_404(Post, slug=slug)
+    if request.user.is_authenticated and request.user.is_superuser:
+        post = get_object_or_404(Post, slug=slug)
+    else:
+        post = get_object_or_404(Post, slug=slug, active=True)
     return render(request, "blog/detail.html", {"post": post})
 
 @login_required
@@ -58,3 +64,15 @@ def post_delete(request, slug):
         return redirect('blog_list')
 
     return redirect('blog_detail', slug=slug)
+
+@login_required
+def post_toggle_active(request, slug):
+    if not request.user.is_superuser:
+        return redirect('blog_list')
+        
+    post = get_object_or_404(Post, slug=slug)
+    if request.method == "POST":
+        post.active = not post.active
+        post.save()
+        
+    return redirect('blog_list')

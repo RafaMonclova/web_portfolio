@@ -5,6 +5,7 @@ urlpatterns = [
     path('new/', views.post_create, name='post_create'),
     path('', views.blog_list, name='blog_list'),
     path('<slug:slug>/', views.blog_detail, name='blog_detail'),
+    path('<slug:slug>/toggle-active/', views.post_toggle_active, name='post_toggle_active'),
     path('<slug:slug>/editar/', views.post_update, name='post_update'),
     path('<slug:slug>/borrar/', views.post_delete, name='post_delete'),
     

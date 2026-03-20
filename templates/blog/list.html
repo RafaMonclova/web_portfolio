@@ -70,13 +70,24 @@
               <span class="text-gray-400 text-xs font-medium">{{ post.author.first_name }}</span>
             </div>
 
-            <!-- Leer más -->
-            <span class="inline-flex items-center gap-1 text-cyan-500/70 group-hover:text-cyan-400 text-xs font-medium transition-colors duration-200">
-              Leer más
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </span>
+            <div class="flex items-center gap-4">
+              {% if user.is_authenticated and user.is_superuser %}
+                <form action="{% url 'post_toggle_active' post.slug %}" method="POST" class="inline" onclick="event.stopPropagation();">
+                  {% csrf_token %}
+                  <button type="submit" class="text-xs font-medium px-2 py-1 rounded border {% if post.active %}bg-green-500/10 text-green-400 border-green-500/30 hover:bg-green-500/20{% else %}bg-gray-500/10 text-gray-400 border-gray-500/30 hover:bg-gray-500/20{% endif %} transition-colors z-10 relative cursor-pointer" title="Cambiar estado">
+                    {% if post.active %}Activo{% else %}Inactivo{% endif %}
+                  </button>
+                </form>
+              {% endif %}
+
+              <!-- Leer más -->
+              <span class="inline-flex items-center gap-1 text-cyan-500/70 group-hover:text-cyan-400 text-xs font-medium transition-colors duration-200">
+                Leer más
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </span>
+            </div>
           </div>
         </a>
       {% empty %}
