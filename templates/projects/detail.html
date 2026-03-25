@@ -45,10 +45,13 @@
           {{ project.type|title }}
         </span>
 
-        {% for lang in project.get_languages_list %}
+        {% for lang in project.languages.all %}
         <span
-          class="inline-flex items-center text-xs px-2.5 py-1 rounded-lg bg-gray-900/60 text-gray-400 border border-gray-700/30">
-          {{ lang }}
+          class="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-lg bg-gray-900/60 text-gray-400 border border-gray-700/30">
+          {% if lang.icon %}
+            <img src="{{ lang.icon }}" alt="{{ lang.name }}" class="w-4 h-4 object-contain">
+          {% endif %}
+          {{ lang.name }}
         </span>
         {% endfor %}
 
@@ -93,7 +96,10 @@
           <div class="flex flex-wrap gap-2">
             {% for tech in project.technologies.all %}
             <span
-              class="inline-flex items-center text-xs font-medium px-2.5 py-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+              class="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+              {% if tech.icon %}
+                <img src="{{ tech.icon }}" alt="{{ tech.name }}" class="w-4 h-4 object-contain">
+              {% endif %}
               {{ tech.name }}
             </span>
             {% endfor %}

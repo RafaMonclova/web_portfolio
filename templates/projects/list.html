@@ -68,10 +68,13 @@
 
           <!-- Lenguajes -->
           <div class="flex flex-wrap gap-1.5 mb-5">
-            {% for lang in project.get_languages_list %}
+            {% for lang in project.languages.all %}
             <span
-              class="inline-flex items-center text-xs px-2 py-0.5 rounded-md bg-gray-900/60 text-gray-400 border border-gray-700/40">
-              {{ lang }}
+              class="inline-flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-md bg-gray-900/60 text-gray-400 border border-gray-700/40">
+              {% if lang.icon %}
+                <img src="{{ lang.icon }}" alt="{{ lang.name }}" class="w-3.5 h-3.5 object-contain">
+              {% endif %}
+              {{ lang.name }}
             </span>
             {% endfor %}
           </div>
