@@ -9,8 +9,8 @@ class ProjectImageInline(admin.TabularInline):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-	list_display = ("title", "type", "framework")
-	search_fields = ("title", "framework")
+	list_display = ("title", "type")
+	search_fields = ("title", "type")
 	inlines = [ProjectImageInline]
 	filter_horizontal = ('technologies', 'languages')
 

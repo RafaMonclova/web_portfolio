@@ -12,7 +12,6 @@ class Project(models.Model):
 	description = models.TextField()
 	# Replaced comma-separated languages field with a ManyToMany to Language
 	languages = models.ManyToManyField('Language', blank=True, related_name='projects')
-	framework = models.CharField(max_length=100)
 	type = models.CharField(max_length=10, choices=TYPE_CHOICES)
 	github_url = models.URLField()
 	readme = models.TextField(blank=True, null=True, help_text="Contenido del README en formato Markdown")
